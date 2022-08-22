@@ -1,0 +1,53 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Sentiment analysis for Summer Research project: Richard Mahard
+
+```{r}
+#install.packages("syuzhet")
+library(syuzhet)
+```
+
+Time to read in text
+
+```{r}
+text <- readLines("1946_RMtoMM.txt", warn = F) 
+text <- paste(text, collapse = "\n")
+sentences_vector <- get_sentences(text) #use syuzhet to get sentences from the text
+syuzhet_vector <- get_sentiment(sentences_vector, method="syuzhet")
+```
+
+Now we can visulaize this 
+
+```{r}
+plot(
+  syuzhet_vector, 
+  type="l", 
+  main="Sentiment Arc", 
+  xlab = "Narrative Time", 
+  ylab= "Emotional Valence"
+)
+```
+
+```{r}
+simple_plot(syuzhet_vector, title = "Sentiment arc")
+```
+
+
+```{r}
+# we can also look at the basic emotions (Plutchik)
+syuzhet_emotions <- get_nrc_sentiment(sentences_vector)
+View(syuzhet_emotions)
+```
+
+```{r}
+colMeans(syuzhet_emotions)
+```
+
+
+
+
+
+
